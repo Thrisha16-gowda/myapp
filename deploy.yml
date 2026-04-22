@@ -1,0 +1,16 @@
+---
+- name: Deploy myapp to server
+  hosts: app_servers
+  become: yes
+
+  tasks:
+    - name: Copy application JAR to server
+      copy:
+        src: target/myapp-1.0-SNAPSHOT.jar
+        dest: /opt/myapp/myapp.jar
+        mode: '0755'
+
+    - name: Restart myapp service
+      systemd:
+        name: myapp
+        state: restarted
